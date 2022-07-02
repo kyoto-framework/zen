@@ -1,78 +1,31 @@
 
-# Zen
+# Kyoto project is moving from GitHub to sr.ht
 
-Zen is an utility-first package that provides a set of commonly used functions, helpers and extensions.
-Most of the functions are adapted to be used with `html/template`.
+https://sr.ht/~kyoto-framework/kyoto-framework/
 
-## Motivation
+## Why?
 
-We had too many cases of copy-pasting the same code between projects over and over again.
-So I decided to combine it all in one place.
+Recent GitHub updates and overall company policy goes against my vision of open source projects.
+This opinion is shared by many people (https://sfconservancy.org/GiveUpGitHub/#ICE-contract-details).
+So I decided to move the project to sr.ht, which policy and actions are quite more transparent.
 
-## Documentation
+## How?
 
-Code is well-documented, so it's pretty comfortable to use documentation provided by [pkg.go.dev](https://pkg.go.dev/github.com/kyoto-framework/zen)
+As far as a go packaging system makes host changing painful enough,
+there is no chance to keep old versions on the new host.
+I'm not going to do everything at once
+and definitely not going to delete the project from GitHub in nearest 2 months.
+But the development of new features and versions will be continued only on sr.ht.
+Current projects on GitHub will be archived and removed after ~2 months.
 
-## Examples
+## What I need to do?
 
-These examples don't show all the features of the library. Please refer to the documentation for details.
+If you're using version 0.x, please, make a fork, or create a local project copy.
+For those who are using 1.x, it's enough to switch references from "github.com/kyoto-framework" to "git.sr.ht/~kyoto-framework".
 
-```go
-package main
+## How to contribute?
 
-import (
-    "time"
-
-    "github.com/kyoto-framework/zen"
-)
-
-// Example of async function
-func foo() zen.Future[string] {
-    return zen.Async(func() (string, error) {
-        // Imitate work
-        time.Sleep(time.Second)
-        // Return result
-        return "bar", nil
-    })
-}
-
-func main() {
-    // Sample slice with zen.Range
-    slice := zen.Range(1, 5) // []int{1, 2, 3, 4, 5}
-
-    // Aggregatives
-    zen.Min(slice) // 1
-    zen.Max(slice) // 5
-    zen.Avg(slice) // 3
-
-    // Range operations
-    zen.Filter(slice, func(v int) bool { return v < 3 }) // []int{1, 2}
-    zen.Map(slice, func(v int) int { return v * 2 }) // []int{2, 4, 6, 8, 10}
-    zen.In(1, slice) // true
-    zen.Pop(slice, 1) // ([]int{1, 3, 4, 5}, 2)
-    zen.Insert(slice, 1, 2) // []int{1, 2, 2, 3, 4, 5}
-    zen.Last(slice) // 5
-    zen.Any(slice, func(v int) bool { return v == 2 }) // true
-    zen.All(slice, func(v int) bool { return v < 6 }) // true
-
-    // Inline transformations
-    zen.Ptr(1) // *int{1}  Inline pointer
-    zen.Bool(3) // bool{true}
-    zen.Int("5") // int{5}
-    zen.Float64("6.5") // float64{6.5}
-    zen.String(7) // string{"7"}
-
-    // Map composition (useful for templates)
-    zen.Compose("foo", 1, "bar", "2") // map[any]any{"foo": 1, "bar": "2"}
-
-    // Must for opinionated panic handling
-    zen.Must(strconv.Atoi("1")) // int{1}, without error
-
-    // Await example
-    futureFoo := foo() // It's not blocking
-    println("foo call is not blocked")
-    // Wait for result
-    result, _ := zen.Await(futureFoo)
-    println(result)
-}
-```
+sr.ht uses mailing lists for communication, announcements, patches etc.
+There are no PRs like GitHub.
+I don't know much about it, but I'm going to dig into it in the near future (https://man.sr.ht/lists.sr.ht/).
+For now, those who want to contribute, I'll just add read/write permissions to the project.
